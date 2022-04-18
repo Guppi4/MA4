@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <pthread.h>
-#include <stack.h>
+#include "stack.h"
 
 #define PORT "3460"  // the port users will be connecting to
 

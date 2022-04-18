@@ -1,13 +1,9 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stack.h>
+#include "stack.h"
 // A structure to represent a stack
-struct Stack {
-    int top;
-    unsigned capacity;
-    int* array;
-};
+
  
 // function to create a stack of given capacity. It initializes size of
 // stack as 0
@@ -66,7 +62,7 @@ int main()
     push(stack, 20);
     push(stack, 30);
  
-    printf("%d popped from stack\n", pop(stack));
- 
+    //printf("%d popped from stack\n", pop(stack));
+     printf("%d Top  \n", peek(stack));
     return 0;
 }
