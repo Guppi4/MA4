@@ -1,68 +1,67 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "stack.h"
+ #include <string.h>
+#define S 1024
 // A structure to represent a stack
-
- 
-// function to create a stack of given capacity. It initializes size of
-// stack as 0
-struct Stack* createStack(unsigned capacity)
+struct StackNode {
+    char* data;
+    struct StackNode* next;
+};
+struct StackNode* newNode(char* data)
 {
-    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
-    stack->capacity = capacity;
-    stack->top = -1;
-    stack->array = (int*)malloc(stack->capacity * sizeof(int));
-    return stack;
+    struct StackNode* stackNode =
+      (struct StackNode*)
+      malloc(sizeof(struct StackNode));
+     stackNode->data=(char*)malloc(S);
+     strcpy(stackNode->data ,data);
+    stackNode->next = NULL;
+    return stackNode;
 }
  
-// Stack is full when top is equal to the last index
-int isFull( Stack* stack)
+int isEmpty(struct StackNode* root)
 {
-    return stack->top == stack->capacity - 1;
+    return !root;
 }
  
-// Stack is empty when top is equal to -1
-int isEmpty( Stack* stack)
+void push(struct StackNode** root, char* data)
 {
-    return stack->top == -1;
+    struct StackNode* stackNode = newNode(data);
+    stackNode->next = *root;
+    *root = stackNode;
+    printf("%s pushed to stack\n", data);
 }
  
-// Function to add an item to stack.  It increases top by 1
-void push( Stack* stack, int item)
+char* pop(struct StackNode** root)
 {
-    if (isFull(stack))
-        return;
-    stack->array[++stack->top] = item;
-    printf("%d pushed to stack\n", item);
+    if (isEmpty(*root))
+        return "Empty";
+    struct StackNode* temp = *root;
+    *root = (*root)->next;
+    char* popped = temp->data;
+    free(temp);
+ 
+    return popped;
 }
  
-// Function to remove an item from stack.  It decreases top by 1
-int pop( Stack* stack)
+char* peek(struct StackNode* root)
 {
-    if (isEmpty(stack))
-        return INT_MIN;
-    return stack->array[stack->top--];
+    if (isEmpty(root))
+        return "Empty";
+    return root->data;
 }
  
-// Function to return the top from stack without removing it
-int peek( Stack* stack)
-{
-    if (isEmpty(stack))
-        return INT_MIN;
-    return stack->array[stack->top];
-}
- 
-// Driver program to test above functions
 int main()
 {
-    struct Stack* stack = createStack(100);
+    struct StackNode* root = NULL;
  
-    push(stack, 10);
-    push(stack, 20);
-    push(stack, 30);
+    push(&root, "one");
+    push(&root, "two");
+    push(&root, "thre");
  
-    //printf("%d popped from stack\n", pop(stack));
-     printf("%d Top  \n", peek(stack));
+    printf("%s popped from stack\n", pop(&root));
+ 
+    printf("Top element is %s\n", peek(root));
+ 
     return 0;
 }
