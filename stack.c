@@ -1,8 +1,13 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
- #include <string.h>
+#include <string.h>
+#include "stack.h"
+
 #define S 1024
+
+
+
 // A structure to represent a stack
 struct StackNode {
     char* data;
@@ -43,7 +48,7 @@ char* pop(struct StackNode** root)
  
     return popped;
 }
- 
+
 char* peek(struct StackNode* root)
 {
     if (isEmpty(root))
@@ -51,17 +56,3 @@ char* peek(struct StackNode* root)
     return root->data;
 }
  
-int main()
-{
-    struct StackNode* root = NULL;
- 
-    push(&root, "one");
-    push(&root, "two");
-    push(&root, "thre");
- 
-    printf("%s popped from stack\n", pop(&root));
- 
-    printf("Top element is %s\n", peek(root));
- 
-    return 0;
-}

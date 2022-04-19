@@ -16,23 +16,81 @@
 #include <pthread.h>
 #include "stack.h"
 
-#define PORT "3460"  // the port users will be connecting to
-
+#define PORT "3510"  // the port users will be connecting to
+struct  StackNode *stack=NULL;
 #define BACKLOG 10   // how many pending connections queue will hold
 
 char client_message[2000];
 char buffer[1024];
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
+
+
 void * socketThread(void *arg)
 {
   ///printf("%s","hgjh");
-  int newSocket = *((int *)arg);
-  
-  sleep(20);
- // printf("%s",buffer);
-  send(newSocket,"Hello client",13,0);
-  //printf("Exit socketThread \n");
+   int newSocket = *((int *)arg);
+    sleep(1); 
+    
+    char buff[1024];
+   char *message ;
+	
+	//Send some messages to the client
+	message = "Greetings! I am your connection handler\n";
+	//send(newSocket , message , strlen(message),0);
+   printf("kkk"); 
+        int num;
+        //pthread_mutex_lock(&lock);
+         read(newSocket, buff, 1024);
+          printf("%s",buff);
+         //pthread_mutex_unlock(&lock);
+        int c=0; 
+         buff[num]='\0';
+        if(!strncmp(buff, "POP",3)){
+           c=1;
+        }
+         if(! strncmp(buff, "PUSH ",5)){
+           c=2;
+        }
+         if(! strncmp(buff, "TOP ",4)){
+           c=3;
+        }
+        if(! strncmp(buff, "EXIT ",4)){
+           c=4;
+        }
+        
+        switch(c)
+    {
+        case 1:
+           char* s;
+            s=pop(&stack);
+              
+            break;
+
+        case 2:
+            push(&stack, buff+5);
+            //printf("Helo");
+            break;
+
+        case 3:
+           char* s1;
+            s1=peek(stack);
+            send(newSocket, s, strlen(s),0);
+            break;
+         
+         case 4:
+          
+            break;
+        default:
+            printf("Error");
+            break;
+    }
+        
+       
+    
+    
+   
+  free(arg);
   close(newSocket);
   //pthread_exit(NULL);
 }

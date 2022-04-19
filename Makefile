@@ -1,13 +1,27 @@
-TARGET=client server stack
-CC=gcc
-CFLAGS= -Wall -Wextra -g
-all: $(TARGET)
+OBJS	= server.o stack.o
+SOURCE	= server.c stack.c
 
-client: client.c
-	$(CC) $(CFLAGS) client.c -o client -lpthread
-server: server.c
-	$(CC) $(CFLAGS) server.c -o server -lpthread
-stack: stack.c
-	$(CC) $(CFLAGS) stack.c -o stack -lpthread
+OUT	= server
+CC	 = g++
+FLAGS	 = -g -c -Wall
+LFLAGS	 = -lpthread
+
+all: server client
+
+server: $(OBJS)
+	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
+
+client: client.o
+	$(CC) client.o -o client 
+
+server.o: server.c
+	$(CC) $(FLAGS) server.c
+
+stack.o: stack.c
+	$(CC) $(FLAGS) stack.c
+
+client.o: client.c
+	$(CC) -c client.c
+
 clean:
-	$(RM) $(TARGET)		
+	rm -f $(OBJS) $(OUT) client *.o
