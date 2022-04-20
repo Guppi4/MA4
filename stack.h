@@ -10,6 +10,6 @@ char* getData(struct StackNode* root);
 int isEmpty(struct StackNode* root);
 void push(struct StackNode** root,char* data);
 char* pop(struct StackNode** root);
-char* peek(struct StackNode* root);
+char* peek(struct StackNode** root);
 
 #endif

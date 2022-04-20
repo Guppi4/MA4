@@ -34,7 +34,7 @@ void push(struct StackNode** root, char* data)
     struct StackNode* stackNode = newNode(data);
     stackNode->next = *root;
     *root = stackNode;
-    printf("%s pushed to stack\n", data);
+    printf("%s pushed to stack\n",stackNode->data);
 }
  
 char* pop(struct StackNode** root)
@@ -49,10 +49,15 @@ char* pop(struct StackNode** root)
     return popped;
 }
 
-char* peek(struct StackNode* root)
+char* peek(struct StackNode** root)
 {
-    if (isEmpty(root))
-        return "Empty";
-    return root->data;
+     char* temp;
+    if (isEmpty(*root)){
+        temp="Empty";
+        return temp;
+    }
+     temp= (*root)->data;  
+   
+    return temp;
 }
  
