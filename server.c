@@ -33,7 +33,9 @@ void *socketThread(void *arg)
 
     char *message;
     int nb;
+    pthread_mutex_lock(&lock);
     nb= recv(newSocket, buff, 1024, 0);
+    pthread_mutex_unlock(&lock);
     int c = 0;
     buff[nb] = '\0';
     if (!strncmp(buff, "POP", 3))
