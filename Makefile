@@ -6,7 +6,10 @@ CC	 = g++
 FLAGS	 = -g -c -Wall
 LFLAGS	 = -lpthread
 
-all: server client
+all: server client 
+
+test: test.o stack.o
+	$(CC) stack.o test.o -o test
 
 server: $(OBJS)
 	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
@@ -23,5 +26,8 @@ stack.o: stack.c
 client.o: client.c
 	$(CC) -c client.c
 
+
+test.o: test.c
+	$(CC) test.c -c
 clean:
-	rm -f $(OBJS) $(OUT) client *.o
+	rm -f $(OBJS)  $(OUT) client *.o test
